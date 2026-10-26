@@ -1,0 +1,128 @@
+{
+ "ku_files_approved": 623,
+ "unique_ku_ids": 623,
+ "unique_content_hashes": 623,
+ "rejected_files": [
+  {
+   "path": "knowledge_units/.generated_by_build_kus",
+   "reason": "not a Markdown file"
+  }
+ ],
+ "migration_ku_index_entries": 623,
+ "ku_ids_match_migration_index": true,
+ "corpus_manifest_hash": "91b18ec7f7072ec19d76fba4b286622b43321f6683bf8a8030411e71c393e2cf",
+ "chunk_count": 11026,
+ "chunk_set_hash": "8db472c58e43022e7a4c8b6240c836476bad08a809cc5a76ee406efaa9a77826",
+ "chunking": {
+  "max_body_chars": 4000,
+  "unit": "heading section; API operation kept whole when it fits; tables split by rows with header repeated; code fences reopened",
+  "index_text": "KU title + heading path + body (identical for every method)"
+ },
+ "chunk_chars": {
+  "min": 6,
+  "p10": 160,
+  "median": 758.0,
+  "p90": 3826,
+  "max": 4000,
+  "mean": 1500.7
+ },
+ "chunks_by_ku_type": {
+  "workflow_guide": 4821,
+  "lifecycle_reference": 11,
+  "api_reference": 5347,
+  "changelog_history": 411,
+  "error_catalogue": 249,
+  "event_catalogue": 187
+ },
+ "chunks_by_category": {
+  "api_lifecycle": 69,
+  "api_reference": 5347,
+  "authentication_and_security": 200,
+  "banking": 419,
+  "card_issuing": 954,
+  "changelog_history": 411,
+  "control_center": 316,
+  "core_platform": 553,
+  "errors_and_troubleshooting": 323,
+  "events_and_webhooks": 1108,
+  "getting_started": 138,
+  "lending": 130,
+  "rate_limits_and_support": 75,
+  "reports_and_data_files": 108,
+  "revolving_credit": 356,
+  "seller_management": 89,
+  "transfers_and_payments": 430
+ },
+ "chunks_split_parts": 2142,
+ "chunk_flags": {
+  "not_documented_statement": 174,
+  "removal_register": 29,
+  "deprecated_operation": 45,
+  "unresolved_operation_link": 84,
+  "historical_changelog": 411
+ },
+ "kus_over_100KB": [
+  {
+   "ku_id": "KU-EVT-client-webhooks-part-09",
+   "bytes": 217819,
+   "chunks": 66
+  },
+  {
+   "ku_id": "KU-API-banking-transaction-banking--payments-part-01",
+   "bytes": 163570,
+   "chunks": 69
+  },
+  {
+   "ku_id": "KU-EVT-client-webhooks-part-13",
+   "bytes": 113013,
+   "chunks": 38
+  },
+  {
+   "ku_id": "KU-API-instant-payments-pix-payments--pix-part-01",
+   "bytes": 111261,
+   "chunks": 45
+  },
+  {
+   "ku_id": "KU-API-card-issuing-disputes--disputes-part-01",
+   "bytes": 109725,
+   "chunks": 57
+  },
+  {
+   "ku_id": "KU-API-core-platform-payment-methods--payment-methods-part-01",
+   "bytes": 103456,
+   "chunks": 48
+  },
+  {
+   "ku_id": "KU-EVT-client-webhooks-part-11",
+   "bytes": 100408,
+   "chunks": 34
+  }
+ ],
+ "kus_by_type": {
+  "workflow_guide": 284,
+  "lifecycle_reference": 1,
+  "api_reference": 266,
+  "changelog_history": 22,
+  "error_catalogue": 27,
+  "event_catalogue": 23
+ },
+ "kus_by_category": {
+  "api_lifecycle": 5,
+  "api_reference": 266,
+  "authentication_and_security": 10,
+  "banking": 21,
+  "card_issuing": 55,
+  "changelog_history": 22,
+  "control_center": 20,
+  "core_platform": 32,
+  "errors_and_troubleshooting": 30,
+  "events_and_webhooks": 79,
+  "getting_started": 9,
+  "lending": 9,
+  "rate_limits_and_support": 4,
+  "reports_and_data_files": 7,
+  "revolving_credit": 23,
+  "seller_management": 5,
+  "transfers_and_payments": 26
+ }
+}

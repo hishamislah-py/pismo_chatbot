@@ -1,0 +1,85 @@
+# Secrets: the OpenAI key and database passwords live only in .env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python: virtual environments, bytecode, test and tool caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Frontend: dependencies, build output, local files (frontend/.gitignore repeats these)
+node_modules/
+frontend/dist/
+*.local
+*.tsbuildinfo
+
+# Editors, OS, logs, temporary files
+.vscode/
+.idea/
+desktop.ini
+Thumbs.db
+.DS_Store
+*.log
+*.tmp
+*.err
+
+# Local databases and dumps (the dev PostgreSQL data lives in a Docker volume, not here)
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+
+# ---------------------------------------------------------------------------------------------------------------
+# Knowledge-base scope: the repository holds the curated KU collection, not the sources it was built from.
+# ---------------------------------------------------------------------------------------------------------------
+
+# Raw source snapshots and releases the KUs were curated from (not read by the application at runtime)
+/pismo_dataset_final_r2/
+/pismo_kb_release_r2/
+# Superseded r1 dataset, KB and sign-off copies
+/pismo_dataset_final/
+/pismo_kb_release/
+/pismo_signoff_results/
+# Validation evidence over the raw dataset, and build history
+/pismo_validation/
+/pismo_work/
+# KU collection versions other than the active one (runtime reads pismo_knowledge_units_migration/knowledge_units)
+/pismo_knowledge_units_migration_v1_1/
+/pismo_knowledge_units_migration_v1_2/
+
+# Active KU migration: keep knowledge_units/, the docs, the tools and ku_index.json (read by build_corpus.py);
+# drop intermediate analysis files and the inventory of the raw sources
+/pismo_knowledge_units_migration/archived_source_inventory/
+/pismo_knowledge_units_migration/work/*
+!/pismo_knowledge_units_migration/work/ku_index.json
+
+# Retrieval index and experiment outputs: rebuilt by scripts/build_corpus.py and scripts/embed_corpus.py.
+# Kept: corpus_summary.json (reference hashes; build_corpus.py rewrites it byte-identically from unchanged KUs) and
+# the hand-written failure_annotations.json. embedding_meta.json is deliberately NOT kept: on its own it would make
+# embed_corpus.py report "cache is current" and skip building the missing vectors.
+/pismo_full_corpus_retrieval_experiment/results/*
+!/pismo_full_corpus_retrieval_experiment/results/corpus_summary.json
+!/pismo_full_corpus_retrieval_experiment/results/failure_annotations.json
+/pismo_full_corpus_retrieval_experiment/candidates/
+
+# Comparison runs: keep scripts, reports and the Chroma venv pin; drop generated data
+/pismo_full_corpus_retrieval_experiment/comparisons/**/*.json
+/pismo_full_corpus_retrieval_experiment/comparisons/**/*.jsonl
+/pismo_full_corpus_retrieval_experiment/comparisons/*/out/
+
+# Generated audit / demo run outputs (written by pismo_assistant.audit_retrieval and verify_demo)
+/docs/audit_runs/
+/docs/demo_runs/

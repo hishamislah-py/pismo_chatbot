@@ -1,0 +1,31 @@
+# Line-ending rules. Paths not listed here get Git's normal text handling (core.autocrlf=true on this Windows
+# machine): source code and documentation are stored with LF and checked out with the platform's line endings.
+
+# Byte-exact data. The KU files are verified by SHA-256 over their raw bytes: at retriever start-up (corpus manifest
+# hash in results/corpus_summary.json) and per file in CORPUS_MANIFEST.csv. The benchmark inputs are checked against
+# their recorded hashes by tests. -text disables end-of-line conversion in both directions, overriding core.autocrlf,
+# so a clone on any platform receives exactly the committed bytes. Diffs still show these files as text.
+pismo_knowledge_units_migration/** -text
+pismo_full_corpus_retrieval_experiment/results/** -text
+pismo_full_corpus_retrieval_experiment/benchmark_inputs/** -text
+pismo_full_corpus_retrieval_experiment/BENCHMARK.json -text
+pismo_full_corpus_retrieval_experiment/BENCHMARK.sha256 -text
+pismo_full_corpus_retrieval_experiment/CORPUS_MANIFEST.csv -text
+
+# Shell scripts run inside the Linux PostgreSQL container: always LF, even in a Windows checkout.
+*.sh text eol=lf
+
+# Binary files: never converted, never diffed as text.
+*.npy binary
+*.npz binary
+*.index binary
+*.bin binary
+*.zip binary
+*.safetensors binary
+*.sqlite3 binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary
+*.xlsx binary
+*.docx binary

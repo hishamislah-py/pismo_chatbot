@@ -1,0 +1,23 @@
+{
+ "_meta": {
+  "set": "probe_questions_unlabelled_v1",
+  "authored": "2026-10-22 by Claude (Opus 5.5) for the v1 / v1.1 / v1.2 comparison",
+  "status": "UNLABELLED - needs reviewed relevance labels before any metric is computed. Used only for top-10 / evidence inspection, noise and contamination checks, and live answer review.",
+  "kinds": {"ambiguous": "short or vague wording", "noisy": "likely to retrieve passages from neighbouring topics",
+            "boundary": "the KB may not document it; a good answer says so", "contamination": "risk of mixing the data-platform HTTP integration into client-webhook answers"}
+ },
+ "questions": [
+  {"id": "PQ-01", "kind": "ambiguous", "q": "webhook"},
+  {"id": "PQ-02", "kind": "ambiguous", "q": "auth"},
+  {"id": "PQ-03", "kind": "noisy", "q": "How do I secure my webhook endpoint?"},
+  {"id": "PQ-04", "kind": "noisy", "q": "Is the webhook signed?"},
+  {"id": "PQ-05", "kind": "contamination", "q": "What certificate URL do I use to verify webhooks in production?"},
+  {"id": "PQ-06", "kind": "noisy", "q": "How do I validate incoming webhooks?"},
+  {"id": "PQ-07", "kind": "noisy", "q": "When does the webhook JWT expire?"},
+  {"id": "PQ-08", "kind": "boundary", "q": "Does Pismo use HMAC signatures for webhooks?"},
+  {"id": "PQ-09", "kind": "noisy", "q": "How long can I cache Pismo's public keys?"},
+  {"id": "PQ-10", "kind": "noisy", "q": "What should I do if the webhook signature does not match?"},
+  {"id": "PQ-11", "kind": "contamination", "q": "How do I verify JWTs on event deliveries and on webhooks, and is the process the same?"},
+  {"id": "PQ-12", "kind": "boundary", "q": "Which IP addresses do Pismo webhooks come from?"}
+ ]
+}

@@ -1,0 +1,329 @@
+---
+ku_id: KU-API-revolving-credit-recurring-charges--recurring-scheduled-charges
+title: 'API reference: Revolving credit - Recurring charges — Recurring scheduled charges'
+category: api_reference
+ku_type: api_reference
+lifecycle: current
+sources:
+- path: api-specs/Revolving_credit_-_Recurring_charges.yaml
+  sha256: d9ee67e0177041de1023c91140aae3a9cf9ba0e44cb121395f18c1dac13ed7f0
+  url: https://github.com/PismoDevEx/pismo-api-specs
+  role: openapi_specification
+  updated_at: '2026-10-13T20:51:51+00:00'
+- path: api-reference-data/operations_catalog.csv
+  sha256: b218bf75940b0c374ca9e3a48fe92fb615b559e3192f263aff99b738b50a71cf
+  url: https://github.com/PismoDevEx/pismo-api-specs
+  role: reference_table
+  updated_at: '2026-10-13T20:51:51+00:00'
+- path: api-reference-data/request_response_examples.csv
+  sha256: ac921f2e8d0d154511b4550462e609cf6bebe3e6ce05dada157e0ed645a80856
+  url: https://github.com/PismoDevEx/pismo-api-specs
+  role: reference_table
+  updated_at: '2026-10-13T20:51:51+00:00'
+- path: api-reference-data/endpoint_event_map.csv
+  sha256: 34649b6033098e514ab0440f13d45a56ec7fd2b476137de7f9fa6867034655c2
+  url: https://github.com/PismoDevEx/pismo-api-specs
+  role: reference_table
+  updated_at: '2026-10-13T20:51:51+00:00'
+operations:
+- list-scheduled-charges
+- get-scheduled-charge
+- update-scheduled-charge
+related_kus:
+- KU-AUTH-account-and-external-id-tokens
+- KU-CRED-recurring-charges
+- KU-EVT-catalogue-balance
+- KU-EVT-recurring-charges-data-events
+specification_version: 1.0.0
+---
+
+# API reference: Revolving credit - Recurring charges — Recurring scheduled charges
+
+**KU ID:** `KU-API-revolving-credit-recurring-charges--recurring-scheduled-charges` · **Category:** API reference · **Type:** operation contracts · **Status:** current specification
+
+## Purpose and scope
+
+Contracts of 3 operation(s) tagged `Recurring scheduled charges` in `api-specs/Revolving_credit_-_Recurring_charges.yaml` (“Revolving credit - Recurring charges”, version `1.0.0`), generated from the OpenAPI document. Methods, paths, operationIds, parameters, request and response fields, required flags, types, enums, defaults and constraints are taken from the specification; examples are shown only where the specification contains a concrete example value.
+
+Tag description (from the specification):
+
+> Endpoints to manage the recurring scheduled charges generated from the links between recurring charge plans and account events.
+
+## Operations in this unit
+
+| Method and path | operationId | Summary | Deprecated |
+| --- | --- | --- | --- |
+| `GET /v1/accounts/{account_id}/scheduled-charges` | `list-scheduled-charges` | List scheduled charges | no |
+| `GET /v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id}` | `get-scheduled-charge` | Get scheduled charge | no |
+| `PATCH /v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id}` | `update-scheduled-charge` | Update scheduled charge | no |
+
+## Authentication
+
+- `BearerAuth`: {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"} — Account access token. Tokens can expire quickly, which can result in an "Unauthorized" error.
+
+## Operation contracts
+
+<!-- op: spec=api-specs/Revolving_credit_-_Recurring_charges.yaml method=GET path=/v1/accounts/{account_id}/scheduled-charges operationId=list-scheduled-charges -->
+### `GET /v1/accounts/{account_id}/scheduled-charges` — List scheduled charges
+
+- **operationId:** `list-scheduled-charges`
+- **Specification:** `api-specs/Revolving_credit_-_Recurring_charges.yaml` (Revolving credit - Recurring charges)
+- **Server base URL(s):** `https://sandbox.pismolabs.io/recurring-charge`
+- **Tags:** `Recurring scheduled charges`
+- **Deprecated in specification:** no
+- **Security requirement:** `BearerAuth`
+
+**Description (from the specification):**
+
+> Gets all the scheduled charges for a given account, filtered by the query parameters.
+>
+> **NOTE:** This endpoint requires an account token — an access token encoded with an account ID. Tokens can expire quickly, which can result in a **401 Unauthorized** message.
+
+#### Parameters
+
+| Name | In | Required | Type | Description | Constraints |
+| --- | --- | --- | --- | --- | --- |
+| `x-cid` | header | no | string | The Correlation IDentifier field is used to link related API requests and events. The x-cid can help the Pismo engineering team track everything related to a call. You can find the x-cid field in the response header from an API endpoint call.<br><br>If this field isn't passed, one is automatically generated.<br> | example: "5bb05174-4e80-11ea-b77f-2e728ce88125" |
+| `account_id` | path | yes | integer | Account ID | example: 6912345 |
+| `page` | query | no | integer | Page number | default: 1; example: 3 |
+| `perPage` | query | no | integer | Maximum number of items per page | default: 100; example: 10 |
+| `recurringChargeLinkId` | query | no | integer | Link ID. Only scheduled charges generated by the given link are returned. | example: 100123 |
+| `statementId` | query | no | integer | Statement ID. Only scheduled charges that appear on the given statement are returned. | example: 200123 |
+| `status` | query | no | string | Charge status. The possible values are `PENDING`,`PROCESSING`, `PROCESSED`, `SETTLED`, and `CANCELLED`. | enum: ["PENDING", "PROCESSING", "PROCESSED", "SETTLED", "CANCELLED"]; example: "PROCESSED" |
+| `authorizationId` | query | no | integer | Authorization ID. Only scheduled charges with this authorization ID are returned. | example: 300123 |
+
+#### Responses
+
+| Status | Description | Body |
+| --- | --- | --- |
+| 200 | OK - Indicates that the server accepted the request and returned the list of charges. If no charges are found, an empty array is returned and `total_items` is 0. | `application/json`: object (schema `PagedScheduledCharge`) |
+| 400 | Bad Request |  |
+| 500 | Internal server error |  |
+
+##### Response 200
+
+**200 `application/json` body fields:**
+
+| Field | Type | Required | Description | Constraints |
+| --- | --- | --- | --- | --- |
+| `current_page` | integer (schema `CurrentPage`) | no | Current page | format: "int32"; example: 1 |
+| `per_page` | integer (schema `PerPage`) | no | Number of items per page | example: 1 |
+| `pages` | integer (schema `Pages`) | no | Number of pages | example: 10 |
+| `total_items` | integer (schema `TotalItems`) | no | Total items | example: 10 |
+| `is_last_page` | boolean (schema `IsLastPage`) | no | Set to `true` if this is the last page. | example: false |
+| `items` | array of object (schema `ScheduledCharge`) | no |  |  |
+
+
+Catalogue row (api-reference-data/operations_catalog.csv): response codes `200;400;500`, has examples `True`, emits events `0`, deprecated `False`.
+
+Guides that link to this operation: `KU-AUTH-account-and-external-id-tokens`, `KU-CRED-recurring-charges`.
+
+<!-- op: spec=api-specs/Revolving_credit_-_Recurring_charges.yaml method=GET path=/v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id} operationId=get-scheduled-charge -->
+### `GET /v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id}` — Get scheduled charge
+
+- **operationId:** `get-scheduled-charge`
+- **Specification:** `api-specs/Revolving_credit_-_Recurring_charges.yaml` (Revolving credit - Recurring charges)
+- **Server base URL(s):** `https://sandbox.pismolabs.io/recurring-charge`
+- **Tags:** `Recurring scheduled charges`
+- **Deprecated in specification:** no
+- **Security requirement:** `BearerAuth`
+
+**Description (from the specification):**
+
+> Get a scheduled charge by account ID and recurring scheduled charge ID.
+>
+> **NOTE:** This endpoint requires an account token — an access token encoded with an account ID. Tokens can expire quickly, which can result in a **401 Unauthorized** message.
+
+#### Parameters
+
+| Name | In | Required | Type | Description | Constraints |
+| --- | --- | --- | --- | --- | --- |
+| `account_id` | path | yes | integer | Account ID | example: 6912345 |
+| `recurring_scheduled_charge_id` | path | yes | integer | ID of the recurring scheduled charge | example: 100123 |
+
+#### Responses
+
+| Status | Description | Body |
+| --- | --- | --- |
+| 200 | OK - Indicates that the server accepted the request and found the scheduled charge. | `application/json`: object (schema `ScheduledCharge`) |
+| 400 | Bad Request |  |
+| 404 | Not Found |  |
+| 500 | Internal server error |  |
+
+##### Response 200
+
+**200 `application/json` body fields:**
+
+| Field | Type | Required | Description | Constraints |
+| --- | --- | --- | --- | --- |
+| `recurring_scheduled_charge_id` | integer (schema `RecurringScheduledChargeID`) | no | ID of recurring scheduled charge | format: "int64"; example: 880077 |
+| `org_id` | string (schema `OrgID`) | no | Organization ID | example: "TN-cc8f8b89-233a-4582-9f36-63ee85278d6d" |
+| `account_id` | integer (schema `AccountID`) | no | Account ID | format: "int64"; example: 6912345 |
+| `created_at` | string (schema `CreatedAt`) | no | Date/time (GMT-3) that asset was registered on Pismo platform | example: "2023-03-30T12:26:41" |
+| `updated_at` | string (schema `UpdatedAt`) | no | Date closure was updated (GMT-3) | example: "2022-02-01" |
+| `statement_id` | integer (schema `StatementID`) | no | Statement ID | format: "int64"; example: 9497889 |
+| `recurring_charge_link_id` | integer (schema `RecurringChargeLinkID`) | no | ID of recurring charge link | format: "int64"; example: 98660282 |
+| `status` | string (schema `Status`) | no | PENDING: Charge is scheduled and waiting for the cycle to close.<br>PROCESSING: Cycle closing process has started and is awaiting completion.<br>CANCELLED: Charge canceled due to link cancellation.<br>SETTLED: Amount is zero and/or `minimum_spend_to_charge` has not been reached.<br>PROCESSED: Charge was posted on the statement."         <br> | enum: ["PENDING", "PROCESSING", "CANCELLED", "SETTLED", "PROCESSED"]; example: "PENDING" |
+| `creation_cid` | string (schema `CreationCID`) | no | CID for the creation event | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `cancellation_cid` | string (schema `CancellationCID`) | no | CID for the cancellation event | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `processing_code` | string (schema `ProcessingCode`) | no | Processing code for the debit transaction.<br><br>If `split_transaction` is `false` (the default), each recurring payment is recorded as one debit transaction equal to the payment amount minus the discount, and `processing_code` is the processing code for that transaction.<br><br>If `split_transaction` is `true`, each recurring payment is recorded as two transactions: a debit transaction for the payment amount and a credit transaction for the discount. In this case, `processing_code` is the processsing code for the debit transaction, and `second_processing_code` is the processing code for the credit transaction.<br> | example: "99066" |
+| `installment_amount` | number (schema `InstallmentAmount`) | no | `installment_amount` is the full amount of a recurring charge before any discount is applied.<br> | format: "double"; example: 10.9 |
+| `description` | string (schema `LinkDescription`) | no | A description of the scheduled charge that's linked to the account. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br>If `counter` is not present, the counter is placed at the end of the description.<br>If no description is configured, the description of the transaction type is used, and the counter is not shown.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+| `authorization_id` | integer (schema `AuthorizationID`) | no | Authorization ID of the debit transaction for `installment_amount`.<br> | example: 1099901 |
+| `authorization_tracking_id` | string (schema `AuthorizationTrackingID`) | no | Tracking ID for the debit transaction for `installment_amount`. | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `secondary_processing_code` | string (schema `SecondaryProcessingCode`) | no | Used to create the transaction for `secondary_installment_amount`. Normally, you should use a processing code for a credit transaction. | example: "99067" |
+| `secondary_installment_amount` | number (schema `SecondaryInstallmentAmount`) | no | If `split_transaction` is true, then `secondary_installment_amount` is the discount (`installment_amount` * `discount_percentage`) that is subtracted from <br>`installment_amount` to calculate the amount that the customer owes on the installment.<br>If `split_transaction` is false, then `secondary_installment_amount` is 0, and the actual amount that the customer owes goes in `installment_amount`."<br>In the first case, two transactions are generated — a debit transaction for `installment_amount` and a credit transaction for <br>`secondary_installment_amount`. (This is the expected behavior. However, it assumes that `processing_code` and `second_processing_code` are set to values for debit and credit transactions, respectively.)<br>In the second case, only one transaction is generated (the one for `installment_amount`).<br> | example: 5.45 |
+| `secondary_description` | string (schema `SecondaryLinkDescription`) | no | Optional secondary description of the scheduled charge. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+| `secondary_authorization_id` | integer (schema `SecondaryAuthorizationID`) | no | Authorization ID of the credit transaction for `secondary_installment_amount`.<br> | example: 1099901 |
+| `secondary_authorization_tracking_id` | string (schema `SecondaryAuthorizationTrackingID`) | no | Tracking ID for the credit transaction for `secondary_installment_amount`. | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `cycle` | integer (schema `ChargeCycleNumber`) | no | Charge cycle number. For example, if the plan has 6 installments, and this charge is for the third installment, then the charge cycle number is 3.<br> | format: "int32"; example: 4 |
+
+
+Catalogue row (api-reference-data/operations_catalog.csv): response codes `200;400;404;500`, has examples `False`, emits events `0`, deprecated `False`.
+
+Guides that link to this operation: `KU-AUTH-account-and-external-id-tokens`, `KU-CRED-recurring-charges`.
+
+<!-- op: spec=api-specs/Revolving_credit_-_Recurring_charges.yaml method=PATCH path=/v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id} operationId=update-scheduled-charge -->
+### `PATCH /v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id}` — Update scheduled charge
+
+- **operationId:** `update-scheduled-charge`
+- **Specification:** `api-specs/Revolving_credit_-_Recurring_charges.yaml` (Revolving credit - Recurring charges)
+- **Server base URL(s):** `https://sandbox.pismolabs.io/recurring-charge`
+- **Tags:** `Recurring scheduled charges`
+- **Deprecated in specification:** no
+- **Security requirement:** `BearerAuth`
+
+**Description (from the specification):**
+
+> Updates a scheduled charge by account ID and recurring scheduled charge ID. It's only possible to update charges with current status `PENDING`. An update to a charge that is scheduled for a particular cycle must be done before that cycle's closing date.
+> This endpoint generates a [Recurring scheduled charge updated](https://developers.pismo.io/events/docs/balance-recurring-scheduled-charge-updated-1) event.
+>
+> **NOTE:** This endpoint requires an account token — an access token encoded with an account ID. Tokens can expire quickly, which can result in a **401 Unauthorized** message.
+
+#### Parameters
+
+| Name | In | Required | Type | Description | Constraints |
+| --- | --- | --- | --- | --- | --- |
+| `account_id` | path | yes | integer | Account ID | example: 6912345 |
+| `recurring_scheduled_charge_id` | path | yes | integer | ID of the recurring scheduled charge | example: 100123 |
+
+#### Request body
+
+Required: yes
+
+**Content type `application/json`** — schema: object
+
+| Field | Type | Required | Description | Constraints |
+| --- | --- | --- | --- | --- |
+| `installment_amount` | number (schema `InstallmentAmount`) | no | `installment_amount` is the full amount of a recurring charge before any discount is applied.<br> | format: "double"; example: 10.9 |
+| `processing_code` | string (schema `ProcessingCode`) | no | Processing code for the debit transaction.<br><br>If `split_transaction` is `false` (the default), each recurring payment is recorded as one debit transaction equal to the payment amount minus the discount, and `processing_code` is the processing code for that transaction.<br><br>If `split_transaction` is `true`, each recurring payment is recorded as two transactions: a debit transaction for the payment amount and a credit transaction for the discount. In this case, `processing_code` is the processsing code for the debit transaction, and `second_processing_code` is the processing code for the credit transaction.<br> | example: "99066" |
+| `description` | string (schema `LinkDescription`) | no | A description of the scheduled charge that's linked to the account. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br>If `counter` is not present, the counter is placed at the end of the description.<br>If no description is configured, the description of the transaction type is used, and the counter is not shown.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+| `secondary_processing_code` | string (schema `SecondaryProcessingCode`) | no | Used to create the transaction for `secondary_installment_amount`. Normally, you should use a processing code for a credit transaction. | example: "99067" |
+| `secondary_installment_amount` | number (schema `SecondaryInstallmentAmount`) | no | If `split_transaction` is true, then `secondary_installment_amount` is the discount (`installment_amount` * `discount_percentage`) that is subtracted from <br>`installment_amount` to calculate the amount that the customer owes on the installment.<br>If `split_transaction` is false, then `secondary_installment_amount` is 0, and the actual amount that the customer owes goes in `installment_amount`."<br>In the first case, two transactions are generated — a debit transaction for `installment_amount` and a credit transaction for <br>`secondary_installment_amount`. (This is the expected behavior. However, it assumes that `processing_code` and `second_processing_code` are set to values for debit and credit transactions, respectively.)<br>In the second case, only one transaction is generated (the one for `installment_amount`).<br> | example: 5.45 |
+| `secondary_description` | string (schema `SecondaryLinkDescription`) | no | Optional secondary description of the scheduled charge. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+
+#### Responses
+
+| Status | Description | Body |
+| --- | --- | --- |
+| 200 | OK - Indicates that the server accepted the request and updated the scheduled charge. | `application/json`: object (schema `ScheduledCharge`) |
+| 400 | Bad Request |  |
+| 404 | Not Found |  |
+| 500 | Internal server error |  |
+
+##### Response 200
+
+**200 `application/json` body fields:**
+
+| Field | Type | Required | Description | Constraints |
+| --- | --- | --- | --- | --- |
+| `recurring_scheduled_charge_id` | integer (schema `RecurringScheduledChargeID`) | no | ID of recurring scheduled charge | format: "int64"; example: 880077 |
+| `org_id` | string (schema `OrgID`) | no | Organization ID | example: "TN-cc8f8b89-233a-4582-9f36-63ee85278d6d" |
+| `account_id` | integer (schema `AccountID`) | no | Account ID | format: "int64"; example: 6912345 |
+| `created_at` | string (schema `CreatedAt`) | no | Date/time (GMT-3) that asset was registered on Pismo platform | example: "2023-03-30T12:26:41" |
+| `updated_at` | string (schema `UpdatedAt`) | no | Date closure was updated (GMT-3) | example: "2022-02-01" |
+| `statement_id` | integer (schema `StatementID`) | no | Statement ID | format: "int64"; example: 9497889 |
+| `recurring_charge_link_id` | integer (schema `RecurringChargeLinkID`) | no | ID of recurring charge link | format: "int64"; example: 98660282 |
+| `status` | string (schema `Status`) | no | PENDING: Charge is scheduled and waiting for the cycle to close.<br>PROCESSING: Cycle closing process has started and is awaiting completion.<br>CANCELLED: Charge canceled due to link cancellation.<br>SETTLED: Amount is zero and/or `minimum_spend_to_charge` has not been reached.<br>PROCESSED: Charge was posted on the statement."         <br> | enum: ["PENDING", "PROCESSING", "CANCELLED", "SETTLED", "PROCESSED"]; example: "PENDING" |
+| `creation_cid` | string (schema `CreationCID`) | no | CID for the creation event | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `cancellation_cid` | string (schema `CancellationCID`) | no | CID for the cancellation event | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `processing_code` | string (schema `ProcessingCode`) | no | Processing code for the debit transaction.<br><br>If `split_transaction` is `false` (the default), each recurring payment is recorded as one debit transaction equal to the payment amount minus the discount, and `processing_code` is the processing code for that transaction.<br><br>If `split_transaction` is `true`, each recurring payment is recorded as two transactions: a debit transaction for the payment amount and a credit transaction for the discount. In this case, `processing_code` is the processsing code for the debit transaction, and `second_processing_code` is the processing code for the credit transaction.<br> | example: "99066" |
+| `installment_amount` | number (schema `InstallmentAmount`) | no | `installment_amount` is the full amount of a recurring charge before any discount is applied.<br> | format: "double"; example: 10.9 |
+| `description` | string (schema `LinkDescription`) | no | A description of the scheduled charge that's linked to the account. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br>If `counter` is not present, the counter is placed at the end of the description.<br>If no description is configured, the description of the transaction type is used, and the counter is not shown.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+| `authorization_id` | integer (schema `AuthorizationID`) | no | Authorization ID of the debit transaction for `installment_amount`.<br> | example: 1099901 |
+| `authorization_tracking_id` | string (schema `AuthorizationTrackingID`) | no | Tracking ID for the debit transaction for `installment_amount`. | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `secondary_processing_code` | string (schema `SecondaryProcessingCode`) | no | Used to create the transaction for `secondary_installment_amount`. Normally, you should use a processing code for a credit transaction. | example: "99067" |
+| `secondary_installment_amount` | number (schema `SecondaryInstallmentAmount`) | no | If `split_transaction` is true, then `secondary_installment_amount` is the discount (`installment_amount` * `discount_percentage`) that is subtracted from <br>`installment_amount` to calculate the amount that the customer owes on the installment.<br>If `split_transaction` is false, then `secondary_installment_amount` is 0, and the actual amount that the customer owes goes in `installment_amount`."<br>In the first case, two transactions are generated — a debit transaction for `installment_amount` and a credit transaction for <br>`secondary_installment_amount`. (This is the expected behavior. However, it assumes that `processing_code` and `second_processing_code` are set to values for debit and credit transactions, respectively.)<br>In the second case, only one transaction is generated (the one for `installment_amount`).<br> | example: 5.45 |
+| `secondary_description` | string (schema `SecondaryLinkDescription`) | no | Optional secondary description of the scheduled charge. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+| `secondary_authorization_id` | integer (schema `SecondaryAuthorizationID`) | no | Authorization ID of the credit transaction for `secondary_installment_amount`.<br> | example: 1099901 |
+| `secondary_authorization_tracking_id` | string (schema `SecondaryAuthorizationTrackingID`) | no | Tracking ID for the credit transaction for `secondary_installment_amount`. | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `cycle` | integer (schema `ChargeCycleNumber`) | no | Charge cycle number. For example, if the plan has 6 installments, and this charge is for the third installment, then the charge cycle number is 3.<br> | format: "int32"; example: 4 |
+
+
+#### Events emitted (api-reference-data/endpoint_event_map.csv)
+
+| Event slug | Event page |
+| --- | --- |
+| `balance-recurring-scheduled-charge-updated-1` | https://developers.pismo.io/events/docs/balance-recurring-scheduled-charge-updated-1 |
+
+Catalogue row (api-reference-data/operations_catalog.csv): response codes `200;400;404;500`, has examples `False`, emits events `1`, deprecated `False`.
+
+Guides that link to this operation: `KU-AUTH-account-and-external-id-tokens`, `KU-CRED-recurring-charges`, `KU-EVT-recurring-charges-data-events`.
+
+## Schemas referenced
+
+Each named schema used by the operations above is listed once, with nested named schemas.
+
+<!-- schema: #/components/schemas/ScheduledCharge -->
+### Schema `ScheduledCharge`
+
+Pointer: `#/components/schemas/ScheduledCharge`. Type: object (schema `ScheduledCharge`).
+
+| Field | Type | Required | Description | Constraints |
+| --- | --- | --- | --- | --- |
+| `recurring_scheduled_charge_id` | integer (schema `RecurringScheduledChargeID`) | no | ID of recurring scheduled charge | format: "int64"; example: 880077 |
+| `org_id` | string (schema `OrgID`) | no | Organization ID | example: "TN-cc8f8b89-233a-4582-9f36-63ee85278d6d" |
+| `account_id` | integer (schema `AccountID`) | no | Account ID | format: "int64"; example: 6912345 |
+| `created_at` | string (schema `CreatedAt`) | no | Date/time (GMT-3) that asset was registered on Pismo platform | example: "2023-03-30T12:26:41" |
+| `updated_at` | string (schema `UpdatedAt`) | no | Date closure was updated (GMT-3) | example: "2022-02-01" |
+| `statement_id` | integer (schema `StatementID`) | no | Statement ID | format: "int64"; example: 9497889 |
+| `recurring_charge_link_id` | integer (schema `RecurringChargeLinkID`) | no | ID of recurring charge link | format: "int64"; example: 98660282 |
+| `status` | string (schema `Status`) | no | PENDING: Charge is scheduled and waiting for the cycle to close.<br>PROCESSING: Cycle closing process has started and is awaiting completion.<br>CANCELLED: Charge canceled due to link cancellation.<br>SETTLED: Amount is zero and/or `minimum_spend_to_charge` has not been reached.<br>PROCESSED: Charge was posted on the statement."         <br> | enum: ["PENDING", "PROCESSING", "CANCELLED", "SETTLED", "PROCESSED"]; example: "PENDING" |
+| `creation_cid` | string (schema `CreationCID`) | no | CID for the creation event | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `cancellation_cid` | string (schema `CancellationCID`) | no | CID for the cancellation event | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `processing_code` | string (schema `ProcessingCode`) | no | Processing code for the debit transaction.<br><br>If `split_transaction` is `false` (the default), each recurring payment is recorded as one debit transaction equal to the payment amount minus the discount, and `processing_code` is the processing code for that transaction.<br><br>If `split_transaction` is `true`, each recurring payment is recorded as two transactions: a debit transaction for the payment amount and a credit transaction for the discount. In this case, `processing_code` is the processsing code for the debit transaction, and `second_processing_code` is the processing code for the credit transaction.<br> | example: "99066" |
+| `installment_amount` | number (schema `InstallmentAmount`) | no | `installment_amount` is the full amount of a recurring charge before any discount is applied.<br> | format: "double"; example: 10.9 |
+| `description` | string (schema `LinkDescription`) | no | A description of the scheduled charge that's linked to the account. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br>If `counter` is not present, the counter is placed at the end of the description.<br>If no description is configured, the description of the transaction type is used, and the counter is not shown.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+| `authorization_id` | integer (schema `AuthorizationID`) | no | Authorization ID of the debit transaction for `installment_amount`.<br> | example: 1099901 |
+| `authorization_tracking_id` | string (schema `AuthorizationTrackingID`) | no | Tracking ID for the debit transaction for `installment_amount`. | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `secondary_processing_code` | string (schema `SecondaryProcessingCode`) | no | Used to create the transaction for `secondary_installment_amount`. Normally, you should use a processing code for a credit transaction. | example: "99067" |
+| `secondary_installment_amount` | number (schema `SecondaryInstallmentAmount`) | no | If `split_transaction` is true, then `secondary_installment_amount` is the discount (`installment_amount` * `discount_percentage`) that is subtracted from <br>`installment_amount` to calculate the amount that the customer owes on the installment.<br>If `split_transaction` is false, then `secondary_installment_amount` is 0, and the actual amount that the customer owes goes in `installment_amount`."<br>In the first case, two transactions are generated — a debit transaction for `installment_amount` and a credit transaction for <br>`secondary_installment_amount`. (This is the expected behavior. However, it assumes that `processing_code` and `second_processing_code` are set to values for debit and credit transactions, respectively.)<br>In the second case, only one transaction is generated (the one for `installment_amount`).<br> | example: 5.45 |
+| `secondary_description` | string (schema `SecondaryLinkDescription`) | no | Optional secondary description of the scheduled charge. Use `counter` to specify where the cycle count should be placed.<br>Example: "Annuity {counter}" generates "Annuity 2/12" for the second of twelve annutities.<br> | minLength: 1; maxLength: 100; example: "Link between an account and a recurring charge plan" |
+| `secondary_authorization_id` | integer (schema `SecondaryAuthorizationID`) | no | Authorization ID of the credit transaction for `secondary_installment_amount`.<br> | example: 1099901 |
+| `secondary_authorization_tracking_id` | string (schema `SecondaryAuthorizationTrackingID`) | no | Tracking ID for the credit transaction for `secondary_installment_amount`. | example: "3ea22692-a209-11eb-89a2-f73e179dcbc2" |
+| `cycle` | integer (schema `ChargeCycleNumber`) | no | Charge cycle number. For example, if the plan has 6 installments, and this charge is for the third installment, then the charge cycle number is 3.<br> | format: "int32"; example: 4 |
+
+## Lifecycle status
+
+- No operation in this unit is marked deprecated in the specification.
+
+## Conflicts, caveats and evidence gaps
+
+- Example JSON is re-serialised from the parsed YAML value (2-space indentation); values are unchanged, formatting may differ from the YAML text.
+- Event payload fields are not documented in the corpus (event pages are not collected).
+
+## Source references
+
+| Source file | Section / operation | Source URL | SHA-256 | updatedAt |
+| --- | --- | --- | --- | --- |
+| `api-specs/Revolving_credit_-_Recurring_charges.yaml` | tag `Recurring scheduled charges`: GET /v1/accounts/{account_id}/scheduled-charges, GET /v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id}, PATCH /v1/accounts/{account_id}/scheduled-charges/{recurring_scheduled_charge_id} | https://github.com/PismoDevEx/pismo-api-specs | `d9ee67e0177041de…` | 2026-10-13T20:51:51+00:00 |
+| `api-reference-data/operations_catalog.csv` | whole document | https://github.com/PismoDevEx/pismo-api-specs | `b218bf75940b0c37…` | 2026-10-13T20:51:51+00:00 |
+| `api-reference-data/request_response_examples.csv` | whole document | https://github.com/PismoDevEx/pismo-api-specs | `ac921f2e8d0d1545…` | 2026-10-13T20:51:51+00:00 |
+| `api-reference-data/endpoint_event_map.csv` | whole document | https://github.com/PismoDevEx/pismo-api-specs | `34649b6033098e51…` | 2026-10-13T20:51:51+00:00 |
+
+## Related knowledge units
+
+- `KU-AUTH-account-and-external-id-tokens` — Endpoints that require account-specific or external-ID tokens
+- `KU-CRED-recurring-charges` — Recurring charges
+- `KU-EVT-catalogue-balance` — Event catalogue: balance
+- `KU-EVT-recurring-charges-data-events` — Revolving credit - Recurring charges

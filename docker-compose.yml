@@ -1,0 +1,41 @@
+# Local PostgreSQL for Pismo Assistant development only. Separate from any PostgreSQL already installed on this machine.
+#
+# Passwords come from the project .env (Compose reads it automatically for ${...} substitution):
+#   PISMO_DB_SUPERUSER_PASSWORD  - container superuser "pismo_admin" (administration only; the app never uses it)
+#   PISMO_DB_APP_PASSWORD        - application role "pismo_app" (non-superuser, owns pismo_assistant and pismo_assistant_test)
+#   PISMO_DB_HOST_PORT           - optional host port (default 5434; 5433 is used by another project's container here)
+#
+#   docker compose up -d pismo-db         start
+#   docker compose ps                     status / health
+#   docker compose stop pismo-db          stop (data is kept in the named volume)
+#
+# The init script runs ONLY when the volume is empty (first start). Changing the passwords in .env later does not change
+# them inside an existing database.
+name: pismo-assistant
+
+services:
+  pismo-db:
+    image: postgres:17.10-bookworm
+    container_name: pismo_assistant_db
+    environment:
+      POSTGRES_USER: pismo_admin
+      POSTGRES_PASSWORD: ${PISMO_DB_SUPERUSER_PASSWORD:?Set PISMO_DB_SUPERUSER_PASSWORD in .env}
+      POSTGRES_DB: postgres
+      PISMO_DB_APP_PASSWORD: ${PISMO_DB_APP_PASSWORD:?Set PISMO_DB_APP_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${PISMO_DB_HOST_PORT:-5434}:5432"
+    volumes:
+      - pismo_assistant_pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      # healthy only once the application database exists and accepts connections
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U pismo_app -d pismo_assistant"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  pismo_assistant_pgdata:
+    name: pismo_assistant_pgdata
