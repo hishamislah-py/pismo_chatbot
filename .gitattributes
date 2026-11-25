@@ -29,3 +29,9 @@ pismo_full_corpus_retrieval_experiment/CORPUS_MANIFEST.csv -text
 *.pdf binary
 *.xlsx binary
 *.docx binary
+
+# Openship deploy files run on Linux: always LF
+Dockerfile text eol=lf
+.dockerignore text eol=lf
+docker-compose.openship.yml text eol=lf
+deploy/** text eol=lf
