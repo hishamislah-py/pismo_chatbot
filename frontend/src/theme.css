@@ -1,0 +1,93 @@
+/* Green & Mint theme tokens (Money2020 POC design system, THEME_GUIDE.md). Dark is the default; light applies with
+   data-theme="light". index.html sets data-theme before first paint; src/theme.ts keeps it in sync. Components use
+   these --ds-* tokens only: a new colour means a new token, defined for BOTH themes below. */
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+  --ds-bg-canvas: #07160F;  --ds-bg-surface: #0B2119;  --ds-bg-raised: #0F2A20;  --ds-bg-sunken: #04100B;
+  --ds-bg-input: #04100B;   --ds-bg-hover: rgba(45,212,191,.06);  --ds-bg-selected: rgba(45,212,191,.14);
+  --ds-bg-neutral-tint: rgba(201,240,219,.06);  --ds-bg-disabled: #18342A;  --ds-bg-tooltip: #1A4033;
+  --ds-table-head: #0F2A20; --ds-table-body: transparent;  --ds-table-row-hover: rgba(45,212,191,.06);
+
+  --ds-text-primary: #FFFFFF; --ds-text-secondary: #D2D8D5; --ds-text-tertiary: #AEB6B2; --ds-text-disabled: #9AA39F;
+  --ds-text-accent: #FFFFFF;  --ds-on-fill-strong: #FFFFFF;
+
+  --ds-fill-strong: #0F7F50; --ds-fill-strong-hover: #0B6E45; --ds-fill-strong-active: #0B5E3B;
+  --ds-accent: #2DD4BF; --ds-accent-indicator: #2DD4BF; --ds-accent-subtle: rgba(45,212,191,.14); --ds-accent-border: rgba(45,212,191,.30);
+  --ds-focus-ring: #2DD4BF;
+  --ds-btn-secondary-bg: #0F2A20; --ds-btn-secondary-text: #FFFFFF; --ds-btn-secondary-border: #2A5546;
+
+  --ds-border-subtle: #17362B; --ds-border-default: #1F4336; --ds-border-strong: #2A5546;
+  --ds-border-input: #4D7A69;  --ds-border-input-hover: #6A9886;
+  --ds-card-top-width: 1px; --ds-card-top-color: #1F4336; --ds-card-shadow: none;
+
+  --ds-shell-bg: #082A20; --ds-shell-active-bg: #041A13; --ds-shell-hover: rgba(201,240,219,.07);
+  --ds-shell-text: #F2F5F4; --ds-shell-text-hi: #FFFFFF; --ds-shell-label: #B4BDB9; --ds-shell-accent: #2DD4BF;
+  --ds-shell-border: rgba(201,240,219,.08);
+  --ds-brand-tile-bg: #0F7F50; --ds-brand-tile-fg: #FFFFFF; --ds-count-bg: #0F7F50; --ds-count-fg: #FFFFFF;
+
+  --ds-success: #5FD39A; --ds-success-subtle: rgba(95,211,154,.12); --ds-success-border: rgba(95,211,154,.30);
+  --ds-info: #6CC8D6;    --ds-info-subtle: rgba(108,200,214,.12);  --ds-info-border: rgba(108,200,214,.30);
+  --ds-warning: #F2B25C; --ds-warning-subtle: rgba(242,178,92,.12); --ds-warning-border: rgba(242,178,92,.30);
+  --ds-danger: #F28B82;  --ds-danger-subtle: rgba(242,139,130,.12); --ds-danger-border: rgba(242,139,130,.30);
+  --ds-badge-success-text: #FFFFFF; --ds-badge-info-text: #FFFFFF; --ds-badge-accent-text: #FFFFFF;
+
+  --ds-weight-regular: 600; --ds-weight-medium: 600; --ds-weight-semibold: 700; --ds-weight-bold: 700;
+
+  /* Pismo Assist additions, same rules as the kit */
+  --ds-shell-field-bg: rgba(201,240,219,.07); --ds-shell-field-border: rgba(201,240,219,.16);
+  --ds-shell-status-ok: #5FD39A; --ds-shell-status-warn: #F2B25C; --ds-shell-status-bad: #F28B82; --ds-shell-status-idle: #9FBDB1;
+  --ds-bg-overlay: rgba(0,0,0,.55);
+  --ds-shadow-popover: 0 8px 24px rgba(0,0,0,.45); --ds-shadow-drawer: -12px 0 32px rgba(0,0,0,.45);
+  --ds-shadow-input: none;
+  --ds-code-bg: #04100B; --ds-code-border: #17362B;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --ds-bg-canvas: #FFFFFF;  --ds-bg-surface: #FFFFFF;  --ds-bg-raised: #F7FFF9;  --ds-bg-sunken: #EEF8F2;
+  --ds-bg-input: #FFFFFF;   --ds-bg-hover: rgba(201,240,219,.50);  --ds-bg-selected: #C9F0DB;
+  --ds-bg-neutral-tint: #EEF3F1;  --ds-bg-disabled: #E3ECE8;  --ds-bg-tooltip: #052D22;
+  --ds-table-head: #E9FFF4; --ds-table-body: #FFFFFF;  --ds-table-row-hover: rgba(201,240,219,.35);
+
+  --ds-text-primary: #0F2C25; --ds-text-secondary: #4D6B5F; --ds-text-tertiary: #4D6B5F; --ds-text-disabled: #8AA39A;
+  --ds-text-accent: #0B6E45;  --ds-on-fill-strong: #FFFFFF;
+
+  --ds-fill-strong: #0F7F50; --ds-fill-strong-hover: #0B6E45; --ds-fill-strong-active: #0B3D2E;
+  --ds-accent: #0F7F50; --ds-accent-indicator: #16AB6D; --ds-accent-subtle: #C9F0DB; --ds-accent-border: rgba(22,171,109,.40);
+  --ds-focus-ring: #0F7F50;
+  --ds-btn-secondary-bg: #C9F0DB; --ds-btn-secondary-text: #0F2C25; --ds-btn-secondary-border: transparent;
+
+  --ds-border-subtle: rgba(11,61,46,.08); --ds-border-default: rgba(11,61,46,.10); --ds-border-strong: rgba(11,61,46,.18);
+  --ds-border-input: rgba(11,61,46,.55);  --ds-border-input-hover: #0B3D2E;
+  --ds-card-top-width: 3px; --ds-card-top-color: #0B3D2E;
+  --ds-card-shadow: 0 1px 2px rgba(9,35,28,.06), 0 4px 12px rgba(9,35,28,.04);
+
+  --ds-shell-bg: #0B3D2E; --ds-shell-active-bg: #052D22; --ds-shell-hover: rgba(201,240,219,.08);
+  --ds-shell-text: #C9F0DB; --ds-shell-text-hi: #FFFFFF; --ds-shell-label: #9FBDB1; --ds-shell-accent: #2DD4BF;
+  --ds-shell-border: rgba(201,240,219,.08);
+  --ds-brand-tile-bg: #2DD4BF; --ds-brand-tile-fg: #0B3D2E; --ds-count-bg: #2DD4BF; --ds-count-fg: #052D22;
+
+  --ds-success: #0B6E45; --ds-success-subtle: #C9F0DB; --ds-success-border: #16AB6D;
+  --ds-info: #0E6F78;    --ds-info-subtle: #E6FBF8; --ds-info-border: #2DD4BF;
+  --ds-warning: #B54708; --ds-warning-subtle: #FFFAEB; --ds-warning-border: #F5C56B;
+  --ds-danger: #B42318;  --ds-danger-subtle: #FEF3F2; --ds-danger-border: #F4A9A3;
+  --ds-badge-success-text: #0B6E45; --ds-badge-info-text: #0E6F78; --ds-badge-accent-text: #0B6E45;
+
+  --ds-weight-regular: 400; --ds-weight-medium: 500; --ds-weight-semibold: 600; --ds-weight-bold: 700;
+
+  --ds-shell-field-bg: rgba(201,240,219,.08); --ds-shell-field-border: rgba(201,240,219,.18);
+  --ds-shell-status-ok: #5FD39A; --ds-shell-status-warn: #F2B25C; --ds-shell-status-bad: #F28B82; --ds-shell-status-idle: #9FBDB1;
+  --ds-bg-overlay: rgba(5,45,34,.30);
+  --ds-shadow-popover: 0 8px 24px rgba(9,35,28,.14); --ds-shadow-drawer: -12px 0 32px rgba(9,35,28,.16);
+  --ds-shadow-input: 0 1px 2px rgba(9,35,28,.04);
+  --ds-code-bg: #EEF8F2; --ds-code-border: rgba(11,61,46,.10);
+}
+
+/* Shared, theme-independent tokens */
+:root {
+  --ds-font-sans: Inter, "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --ds-font-mono: "JetBrains Mono", "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --ds-radius-sm: 4px; --ds-radius-md: 6px; --ds-radius-lg: 8px; --ds-radius-card: 12px; --ds-radius-full: 9999px;
+  --ds-ease: cubic-bezier(.2,0,0,1); --ds-fast: .12s; --ds-base: .18s;
+}
+.ds-theme-switching, .ds-theme-switching * { transition: none !important; }

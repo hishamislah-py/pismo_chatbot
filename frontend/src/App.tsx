@@ -5,6 +5,7 @@ import { ChatView, type SendFailure } from './components/ChatView'
 import { EvidenceDrawer } from './components/EvidenceDrawer'
 import { PlusIcon, SidebarIcon } from './components/Icons'
 import { Sidebar } from './components/Sidebar'
+import { useTheme, type Theme } from './theme'
 import { plural, shortWhen } from './util'
 
 const errText = (e: unknown) => (e instanceof ApiError ? e.message : 'Unexpected error.')
@@ -45,6 +46,19 @@ function HealthBadge({ health, error }: { health: Health | null; error: boolean 
     <span className="health" title={label} role="status">
       <span className={`health-dot ${tone}`} /><span className="health-label">{label}</span>
     </span>
+  )
+}
+
+/** Light / Dark switch. There is no "System" option: the theme follows the OS until one of these is chosen. */
+function ThemeToggle() {
+  const [theme, setTheme] = useTheme()
+  const options: [Theme, string][] = [['light', 'Light'], ['dark', 'Dark']]
+  return (
+    <div className="theme-toggle" role="group" aria-label="Colour theme">
+      {options.map(([value, label]) => (
+        <button key={value} type="button" aria-pressed={theme === value} onClick={() => setTheme(value)}>{label}</button>
+      ))}
+    </div>
   )
 }
 
@@ -263,7 +277,10 @@ export default function App() {
           <span className="brand-name">Pismo Assist</span>
           <span className="brand-sub">Client implementation &amp; ramp-up assistant</span>
         </div>
-        <HealthBadge health={health} error={healthError} />
+        <div className="topbar-end">
+          <ThemeToggle />
+          <HealthBadge health={health} error={healthError} />
+        </div>
       </header>
 
       <div className="body">

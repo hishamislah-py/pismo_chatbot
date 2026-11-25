@@ -101,7 +101,7 @@ export function ChatView(p: Props) {
             </div>
           )}
 
-          {p.loading && !p.messages.length && <div className="center-state"><span className="spinner" style={{ color: 'var(--blue)' }} />Loading conversation…</div>}
+          {p.loading && !p.messages.length && <div className="center-state"><span className="spinner spinner-accent" />Loading conversation…</div>}
           {p.loadError && (
             <ErrorCard title="Could not load this conversation" message={p.loadError} onRetry={p.onReload} retryLabel="Try again" />
           )}
