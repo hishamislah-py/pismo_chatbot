@@ -1,0 +1,36 @@
+# Openship deploy: app (nginx :80 + FastAPI + retrieval index) and PostgreSQL 17.
+# The app connects as the owner role pismo_app; the local-dev docker-compose.yml (superuser + init script) is unchanged.
+services:
+  app:
+    build: .
+    ports:
+      - "80"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-6-luna}
+      OPENAI_TIMEOUT_S: ${OPENAI_TIMEOUT_S:-60}
+      OPENAI_REASONING_EFFORT: ${OPENAI_REASONING_EFFORT:-low}
+      DATABASE_URL: postgresql+psycopg://pismo_app:${PISMO_DB_APP_PASSWORD}@db:5432/pismo_assistant
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://client-implementation.ops.ai.arttechgroup.com:7777}
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+  db:
+    image: postgres:17.10-bookworm
+    environment:
+      POSTGRES_USER: pismo_app
+      POSTGRES_PASSWORD: ${PISMO_DB_APP_PASSWORD}
+      POSTGRES_DB: pismo_assistant
+    volumes:
+      - pismo-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pismo_app -d pismo_assistant"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+volumes:
+  pismo-pgdata:
