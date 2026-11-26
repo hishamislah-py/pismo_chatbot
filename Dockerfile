@@ -20,9 +20,11 @@ RUN pip install -r backend/requirements.txt sentence-transformers numpy PyYAML o
 RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('sentence-transformers/all-MiniLM-L6-v2', revision='1110a243fdf4706b3f48f1d95db1a4f5529b4d41')"
 COPY . /app/src
 ENV HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+# Embedding the corpus on CPU prints nothing for >10 min, which trips Openship's build-silence timeout; a heartbeat keeps it alive.
 RUN cd pismo_full_corpus_retrieval_experiment \
     && python -B -s scripts/build_corpus.py \
-    && python -B -s scripts/embed_corpus.py
+    && { (while sleep 60; do echo "embedding corpus..."; done) & hb=$!; \
+         python -B -s scripts/embed_corpus.py; rc=$?; kill $hb; exit $rc; }
 COPY --from=web /web/dist /app/web
 COPY deploy/nginx.conf /etc/nginx/conf.d/app.conf
 EXPOSE 80
